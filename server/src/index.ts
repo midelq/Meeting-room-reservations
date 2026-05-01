@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 import { AppDataSource } from './config/data-source';
 import { errorHandler } from './middleware/errorHandler';
 import authRoutes from './routes/auth.routes';
+import roomsRoutes from './routes/rooms.routes';
 
 dotenv.config();
 
