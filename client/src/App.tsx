@@ -7,6 +7,7 @@ import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
 import { DashboardPage } from './pages/DashboardPage';
 import { RoomDetailPage } from './pages/RoomDetailPage';
+import { NotFoundPage } from './pages/NotFoundPage';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -27,7 +28,7 @@ function App() {
               <Route path="/rooms" element={<DashboardPage />} />
               <Route path="/rooms/:id" element={<RoomDetailPage />} />
             </Route>
-            <Route path="*" element={<Navigate to="/" replace />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </BrowserRouter>
         <Toaster
