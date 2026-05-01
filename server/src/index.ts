@@ -18,16 +18,17 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/api/auth', authRoutes);
+app.use('/api/rooms', roomsRoutes);
 
 app.use(errorHandler);
 
 AppDataSource.initialize()
   .then(() => {
-    console.log('Database connected successfully!');
+    console.log('Database connected');
     app.listen(port, () => {
-      console.log(`Server is ing on port ${port}`);
+      console.log(`Server running on port ${port}`);
     });
   })
   .catch((err) => {
-    console.error('Error during Data Source initialization:', err);
+    console.error('Database connection error:', err);
   });

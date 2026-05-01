@@ -17,13 +17,13 @@ export class Room {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ length: 150 })
+  @Column({ type: 'varchar', length: 150 })
   name: string;
 
   @Column({ type: 'text', default: '' })
   description: string;
 
-  @Column()
+  @Column({ type: 'uuid' })
   createdById: string;
 
   @ManyToOne(() => User, { onDelete: 'CASCADE' })

@@ -17,7 +17,7 @@ export class Booking {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ length: 200 })
+  @Column({ type: 'varchar', length: 200 })
   title: string;
 
   @Column({ type: 'text', default: '' })
@@ -29,10 +29,10 @@ export class Booking {
   @Column({ type: 'timestamptz' })
   endTime: Date;
 
-  @Column()
+  @Column({ type: 'uuid' })
   roomId: string;
 
-  @Column()
+  @Column({ type: 'uuid' })
   createdById: string;
 
   @ManyToOne(() => Room, (room) => room.bookings, { onDelete: 'CASCADE' })

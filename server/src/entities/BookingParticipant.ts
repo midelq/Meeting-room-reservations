@@ -16,10 +16,10 @@ export class BookingParticipant {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({ type: 'uuid' })
   bookingId: string;
 
-  @Column()
+  @Column({ type: 'uuid' })
   userId: string;
 
   @CreateDateColumn()

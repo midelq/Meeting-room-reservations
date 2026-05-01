@@ -21,10 +21,10 @@ export class RoomMember {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({ type: 'uuid' })
   roomId: string;
 
-  @Column()
+  @Column({ type: 'uuid' })
   userId: string;
 
   @Column({ type: 'enum', enum: RoomRole, default: RoomRole.USER })
