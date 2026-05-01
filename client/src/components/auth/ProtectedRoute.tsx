@@ -6,8 +6,11 @@ export function ProtectedRoute() {
 
   if (isLoading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-slate-950">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-indigo-500 border-t-transparent" />
+      <div style={{ minHeight: '100vh', background: 'var(--color-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div
+          className="animate-spin"
+          style={{ width: '28px', height: '28px', borderRadius: '50%', border: '2px solid var(--color-border-light)', borderTopColor: 'var(--color-brand)' }}
+        />
       </div>
     );
   }

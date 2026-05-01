@@ -3,7 +3,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
-import { UserPlus } from 'lucide-react';
 import { authApi } from '../api/auth.api';
 import { useAuth } from '../context/AuthContext';
 import { Input } from '../components/ui/Input';
@@ -39,51 +38,65 @@ export function RegisterPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-950 p-4">
-      <div className="w-full max-w-sm">
-        <div className="mb-8 text-center">
-          <div className="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-indigo-600/20 ring-1 ring-indigo-500/30">
-            <UserPlus className="h-7 w-7 text-indigo-400" />
-          </div>
-          <h1 className="text-2xl font-bold text-white">Create account</h1>
-          <p className="mt-1 text-sm text-slate-400">Start booking meeting rooms</p>
+    <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--color-bg)' }}>
+      {/* Left decorative panel */}
+      <div
+        style={{
+          width: '420px',
+          flexShrink: 0,
+          display: 'flex',
+          flexDirection: 'column',
+          padding: '48px',
+          background: 'var(--color-surface)',
+          borderRight: '1px solid var(--color-border)',
+        }}
+        className="hidden lg:flex"
+      >
+        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '17px', color: 'var(--color-brand)', letterSpacing: '-0.02em' }}>
+          MeetingRooms
         </div>
 
-        <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 backdrop-blur-sm">
-          <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-            <Input
-              label="Full name"
-              type="text"
-              placeholder="John Doe"
-              error={errors.name?.message}
-              {...register('name')}
-            />
-            <Input
-              label="Email"
-              type="email"
-              placeholder="you@company.com"
-              error={errors.email?.message}
-              {...register('email')}
-            />
-            <Input
-              label="Password"
-              type="password"
-              placeholder="min. 6 characters"
-              error={errors.password?.message}
-              {...register('password')}
-            />
-            <Button type="submit" isLoading={isSubmitting} className="mt-1 w-full">
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+          <p style={{ fontFamily: 'var(--font-display)', fontSize: '38px', fontWeight: 800, lineHeight: 1.1, letterSpacing: '-0.04em', color: 'var(--color-text)' }}>
+            Collaboration<br />
+            <span style={{ color: 'var(--color-brand)' }}>starts here.</span>
+          </p>
+          <p style={{ color: 'var(--color-text-muted)', marginTop: '18px', fontSize: '14px', lineHeight: 1.8 }}>
+            Create rooms, invite teammates,<br />and keep everyone in sync.
+          </p>
+        </div>
+
+
+      </div>
+
+      {/* Right form panel */}
+      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '48px 32px' }}>
+        <div style={{ width: '100%', maxWidth: '360px' }} className="animate-fade-up">
+          <div style={{ marginBottom: '36px' }}>
+            <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '30px', fontWeight: 700, letterSpacing: '-0.03em', color: 'var(--color-text)', marginBottom: '6px' }}>
               Create account
-            </Button>
-          </form>
-        </div>
+            </h1>
+            <p style={{ color: 'var(--color-text-muted)', fontSize: '14px' }}>Free to get started</p>
+          </div>
 
-        <p className="mt-5 text-center text-sm text-slate-500">
-          Already have an account?{' '}
-          <Link to="/login" className="font-medium text-indigo-400 hover:text-indigo-300 transition">
-            Sign in
-          </Link>
-        </p>
+          <form onSubmit={handleSubmit(onSubmit)} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <Input label="Full name" type="text" placeholder="John Doe" error={errors.name?.message} {...register('name')} />
+            <Input label="Email" type="email" placeholder="you@company.com" error={errors.email?.message} {...register('email')} />
+            <Input label="Password" type="password" placeholder="min. 6 characters" error={errors.password?.message} {...register('password')} />
+            <div style={{ marginTop: '8px' }}>
+              <Button type="submit" isLoading={isSubmitting} style={{ width: '100%', padding: '14px', fontSize: '15px' }}>
+                Create account
+              </Button>
+            </div>
+          </form>
+
+          <p style={{ marginTop: '28px', textAlign: 'center', fontSize: '13px', color: 'var(--color-text-muted)' }}>
+            Have an account?{' '}
+            <Link to="/login" style={{ color: 'var(--color-brand)', textDecoration: 'none', fontWeight: 500 }}>
+              Sign in →
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );

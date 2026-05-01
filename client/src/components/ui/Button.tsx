@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes, ReactNode } from 'react';
+import { type ButtonHTMLAttributes, type ReactNode } from 'react';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
@@ -7,40 +7,86 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   isLoading?: boolean;
 }
 
+const styles: Record<string, { bg: string; color: string; border: string; hover: string }> = {
+  primary: {
+    bg: 'var(--color-brand)',
+    color: '#0b0906',
+    border: 'transparent',
+    hover: 'var(--color-brand-hover)',
+  },
+  secondary: {
+    bg: 'var(--color-surface-2)',
+    color: 'var(--color-text)',
+    border: 'var(--color-border-light)',
+    hover: 'var(--color-surface)',
+  },
+  danger: {
+    bg: 'var(--color-danger-dim)',
+    color: 'var(--color-danger)',
+    border: 'rgba(224, 92, 92, 0.25)',
+    hover: 'rgba(224, 92, 92, 0.2)',
+  },
+  ghost: {
+    bg: 'transparent',
+    color: 'var(--color-text-muted)',
+    border: 'transparent',
+    hover: 'var(--color-surface-2)',
+  },
+};
+
 export function Button({
   children,
   variant = 'primary',
   size = 'md',
   isLoading,
   disabled,
-  className = '',
+  style,
+  onMouseEnter,
+  onMouseLeave,
   ...props
 }: ButtonProps) {
-  const base =
-    'inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed';
-
-  const sizes = {
-    sm: 'px-3 py-1.5 text-sm',
-    md: 'px-4 py-2.5 text-sm',
-  };
-
-  const variants = {
-    primary: 'bg-indigo-600 text-white hover:bg-indigo-500 active:bg-indigo-700',
-    secondary: 'bg-slate-700 text-slate-200 hover:bg-slate-600 active:bg-slate-700',
-    danger: 'bg-red-600/20 text-red-400 hover:bg-red-600/30 border border-red-500/30',
-    ghost: 'text-slate-400 hover:text-white hover:bg-slate-800',
-  };
+  const s = styles[variant];
 
   return (
     <button
       disabled={isLoading || disabled}
-      className={[base, sizes[size], variants[variant], className].join(' ')}
+      style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: '6px',
+        fontFamily: 'var(--font-body)',
+        fontWeight: 500,
+        borderRadius: '8px',
+        border: `1px solid ${s.border}`,
+        background: s.bg,
+        color: s.color,
+        cursor: isLoading || disabled ? 'not-allowed' : 'pointer',
+        opacity: isLoading || disabled ? 0.5 : 1,
+        transition: 'background 0.15s, opacity 0.15s, transform 0.1s',
+        fontSize: size === 'sm' ? '13px' : '14px',
+        padding: size === 'sm' ? '6px 12px' : '10px 18px',
+        letterSpacing: '-0.01em',
+        ...style,
+      }}
+      onMouseEnter={(e) => {
+        if (!disabled && !isLoading) {
+          (e.currentTarget as HTMLButtonElement).style.background = s.hover;
+          (e.currentTarget as HTMLButtonElement).style.transform = 'translateY(-1px)';
+        }
+        onMouseEnter?.(e);
+      }}
+      onMouseLeave={(e) => {
+        (e.currentTarget as HTMLButtonElement).style.background = s.bg;
+        (e.currentTarget as HTMLButtonElement).style.transform = 'translateY(0)';
+        onMouseLeave?.(e);
+      }}
       {...props}
     >
       {isLoading ? (
-        <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
-          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+        <svg className="animate-spin" width="14" height="14" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" strokeOpacity="0.25" />
+          <path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
         </svg>
       ) : null}
       {children}

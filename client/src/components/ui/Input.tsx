@@ -1,4 +1,4 @@
-import { forwardRef, InputHTMLAttributes } from 'react';
+import { forwardRef, type InputHTMLAttributes } from 'react';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
@@ -10,23 +10,55 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     const inputId = id ?? label.toLowerCase().replace(/\s+/g, '-');
 
     return (
-      <div className="flex flex-col gap-1.5">
-        <label htmlFor={inputId} className="text-sm font-medium text-slate-300">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+        <label
+          htmlFor={inputId}
+          style={{
+            fontSize: '12px',
+            fontWeight: 500,
+            color: 'var(--color-text-muted)',
+            fontFamily: 'var(--font-body)',
+            letterSpacing: '0.01em',
+          }}
+        >
           {label}
         </label>
-        <input
-          ref={ref}
-          id={inputId}
-          {...props}
-          className={[
-            'w-full rounded-lg border bg-slate-800/60 px-4 py-2.5 text-sm text-white placeholder-slate-500',
-            'outline-none transition focus:ring-2',
-            error
-              ? 'border-red-500/60 focus:ring-red-500/40'
-              : 'border-slate-700 focus:border-indigo-500 focus:ring-indigo-500/30',
-          ].join(' ')}
-        />
-        {error && <p className="text-xs text-red-400">{error}</p>}
+        <div style={{ position: 'relative' }}>
+          <input
+            ref={ref}
+            id={inputId}
+            {...props}
+            style={{
+              width: '100%',
+              background: 'var(--color-surface-2)',
+              border: `1.5px solid ${error ? 'var(--color-danger)' : 'var(--color-border-light)'}`,
+              borderRadius: '10px',
+              color: 'var(--color-text)',
+              fontFamily: 'var(--font-body)',
+              fontSize: '14px',
+              padding: '11px 14px',
+              outline: 'none',
+              transition: 'border-color 0.15s, box-shadow 0.15s',
+            }}
+            onFocus={(e) => {
+              if (!error) {
+                (e.target as HTMLInputElement).style.borderColor = 'var(--color-brand)';
+                (e.target as HTMLInputElement).style.boxShadow = '0 0 0 3px var(--color-brand-dim)';
+              }
+              props.onFocus?.(e);
+            }}
+            onBlur={(e) => {
+              (e.target as HTMLInputElement).style.borderColor = error ? 'var(--color-danger)' : 'var(--color-border-light)';
+              (e.target as HTMLInputElement).style.boxShadow = 'none';
+              props.onBlur?.(e);
+            }}
+          />
+        </div>
+        {error && (
+          <p style={{ fontSize: '12px', color: 'var(--color-danger)', fontFamily: 'var(--font-body)', marginTop: '2px' }}>
+            {error}
+          </p>
+        )}
       </div>
     );
   },

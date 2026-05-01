@@ -4,14 +4,30 @@ interface BadgeProps {
 }
 
 const styles = {
-  admin: 'bg-indigo-500/15 text-indigo-300 border-indigo-500/30',
-  user: 'bg-slate-700/60 text-slate-300 border-slate-600/40',
-  default: 'bg-slate-700/60 text-slate-300 border-slate-600/40',
+  admin: { bg: 'rgba(240, 168, 74, 0.12)', color: 'var(--color-brand)', border: 'rgba(240, 168, 74, 0.3)' },
+  user:  { bg: 'var(--color-surface-2)', color: 'var(--color-text-muted)', border: 'var(--color-border)' },
+  default: { bg: 'var(--color-surface-2)', color: 'var(--color-text-muted)', border: 'var(--color-border)' },
 };
 
 export function Badge({ label, variant = 'default' }: BadgeProps) {
+  const s = styles[variant];
   return (
-    <span className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium ${styles[variant]}`}>
+    <span
+      style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        background: s.bg,
+        color: s.color,
+        border: `1px solid ${s.border}`,
+        borderRadius: '20px',
+        padding: '2px 10px',
+        fontSize: '11px',
+        fontWeight: 500,
+        fontFamily: 'var(--font-body)',
+        letterSpacing: '0.03em',
+        textTransform: 'uppercase',
+      }}
+    >
       {label}
     </span>
   );
